@@ -24,6 +24,29 @@ Expected output:
     ["alice", "bob", "diana"]
 */
 
+const users = [
+    { username: "charlie", age: 17 },
+    { username: "bob", age: 30 },
+    { username: "diana", age: 20 },
+    { username: "alice", age: 25 },
+  ];
+  
+  function accountManagement(arrayOfUsers) {
+    const adultUsers = arrayOfUsers.filter((user) => {
+      console.log(user);
+      return user.age >= 18;
+    });
+  
+    const adultUsernames = adultUsers.map((user) => user.username);
+  
+    return adultUsernames;
+  }
+  
+  const filteredUsernames = accountManagement(users);
+  
+  console.log(filteredUsernames);
+
+
 
 /*
 2. Message Filtering:
@@ -42,6 +65,21 @@ Expected output:
     getMessagesFromPerson('bob') => "Hi there! How are you?"
 */
 
+const messages = [
+    { sender: "alice", recipient: "bob", message: "Hello!" },
+    { sender: "bob", recipient: "alice", message: "Hi there!" },
+    { sender: "bob", recipient: "alice", message: "How are you?" },
+    { sender: "alice", recipient: "bob", message: "Yo, you there?" },
+];
+
+function getMessagesFromPerson(sender) {
+    return messages
+        .filter(message => message.sender !== sender)
+        .map(message => message.message)
+        .join(' ');
+}
+
+console.log(getMessagesFromPerson('bob'));
 
 /*
 3. Product Pricing:
@@ -61,6 +99,28 @@ Expected output:
         { name: "banana", price: 3.75, quantity: 5, totalCost: 18.75 }
     ]
 */
+
+
+const products = [
+    { name: "apple", price: 1.5, quantity: 10 },
+    { name: "banana", price: 0.75, quantity: 5 },
+    { name: "orange", price: 2, quantity: 0 }
+];
+
+function getAvailableProducts(products) {
+    return products
+        .filter(product => product.quantity > 0)
+        .map(product => ({
+            ...product,
+            totalCost: product.price * product.quantity
+        }))
+        .sort((a, b) => a.totalCost - b.totalCost);
+}
+
+console.log(getAvailableProducts(products));
+
+
+
 /*
 4. Employee Salary Calculation:
    Given an array of employee objects, each containing a name, salary, and department 
@@ -80,6 +140,34 @@ Input:
 Expected output:
     [ [ 'IT', 210000 ], [ 'HR', 95000 ] ]
 */
+
+const employees = [
+    { name: "Alice", salary: 50000, department: "HR" },
+    { name: "Bob", salary: 60000, department: "IT" },
+    { name: "Charlie", salary: 45000, department: "HR" },
+    { name: "Dean", salary: 80000, department: "IT" },
+    { name: "Earl", salary: 70000, department: "IT" },
+    { name: "Fred", salary: 40000, department: "R&D" },
+];
+
+function calculateTotalSalaryByDepartment(employees) {
+  
+    const departmentSalaries = employees.reduce((acc, employee) => {
+        acc[employee.department] = (acc[employee.department] || 0) + employee.salary;
+        return acc;
+    }, {});
+
+    
+    let departmentSalaryArray = Object.entries(departmentSalaries);
+
+    departmentSalaryArray = departmentSalaryArray
+        .filter(([department, totalSalary]) => totalSalary >= 50000)
+        .sort((a, b) => b[1] - a[1]);
+
+    return departmentSalaryArray;
+}
+
+console.log(calculateTotalSalaryByDepartment(employees));
 
 
 /*
@@ -101,6 +189,26 @@ Expected output:
 
 */
 
+const events = [
+    { event: "Conference", attendees: 100, date: "2024-02-01" },
+    { event: "Workshop", attendees: 50, date: "2024-02-05" },
+    { event: "Seminar", attendees: 80, date: "2024-01-20" },
+    { event: "Workshop", attendees: 70, date: "2024-02-01" },
+    { event: "Seminar", attendees: 120, date: "2024-01-15" }
+];
+
+function calculateTotalAttendeesPerEvent(events) {
+    const largeEvents = events.filter(event => event.attendees >= 60);
+
+    const totalAttendeesPerEvent = largeEvents.reduce((acc, event) => {
+        acc[event.event] = (acc[event.event] || 0) + event.attendees;
+        return acc;
+    }, {});
+
+    return totalAttendeesPerEvent;
+}
+
+console.log(calculateTotalAttendeesPerEvent(events));
 
 /*
 6. Task Management:
@@ -118,3 +226,24 @@ Input:
 Expected output:
     ["Write report", "Schedule meeting"]
 */
+
+const tasks = [
+    { title: "Write report", priority: "low", completed: false },
+    { title: "Prepare presentation", priority: "medium", completed: true },
+    { title: "Schedule meeting", priority: "high", completed: false }
+];
+
+function getIncompleteTasks(tasks) {
+    const incompleteTasks = tasks.filter(task => !task.completed);
+
+    incompleteTasks.sort((a, b) => {
+        const priorityOrder = { low: 0, medium: 1, high: 2 };
+        return priorityOrder[a.priority] - priorityOrder[b.priority];
+    });
+
+    const taskTitles = incompleteTasks.map(task => task.title);
+
+    return taskTitles;
+}
+
+console.log(getIncompleteTasks(tasks));
