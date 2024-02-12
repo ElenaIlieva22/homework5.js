@@ -45,7 +45,11 @@ const users = [
   const filteredUsernames = accountManagement(users);
   
   console.log(filteredUsernames);
-
+/*
+const above18 = users.filter(user => user.age > 18);
+const usernames = above18.map(user => user.username);
+console.log(usernames.sort());
+*/
 
 
 /*
@@ -119,7 +123,17 @@ function getAvailableProducts(products) {
 
 console.log(getAvailableProducts(products));
 
-
+/*
+const filteredProducts = products.filter(product => product.quantity > 0)
+    .map(product => ({
+        name: product.name,
+        price: product.price,
+        quantity: product.quantity,
+        totalCost: product.price * product.quantity 
+    }))
+    .sort((a, b) =>b.totalCost-a.totalCost);
+console.log(filteredProducts);
+*/
 
 /*
 4. Employee Salary Calculation:
@@ -168,7 +182,27 @@ function calculateTotalSalaryByDepartment(employees) {
 }
 
 console.log(calculateTotalSalaryByDepartment(employees));
+/*
+function calculateSalary(employees){
 
+    let departmentSalary = employees.reduce((acc, employee) =>{
+        if (!acc[employee.department]){
+            acc[employee.department] = 0;
+        }
+        acc[employee.department] += employee.salary
+        return acc;
+    },{})
+    
+    let result = [];
+    for (let department in departmentSalary){
+        if(departmentSalary[department] >= 50000){
+            result.push([department, departmentSalary[department]])
+        }
+    }
+    return result;
+}
+console.log(calculateSalary(employees))
+*/
 
 /*
 5. Event Attendance Tracking:
@@ -209,6 +243,25 @@ function calculateTotalAttendeesPerEvent(events) {
 }
 
 console.log(calculateTotalAttendeesPerEvent(events));
+/*
+function eventAttendanceTracking(events){
+
+    let eventsFilter = events.filter(even => even.attendees >= 60)
+    console.log(eventsFilter)
+    
+    let result = {}
+    for (let i = 0; i < eventsFilter.length; i++) {
+        
+        if(result[eventsFilter[i].event]){
+            result[eventsFilter[i].event] += eventsFilter[i].attendees;
+        }else{
+            result[eventsFilter[i].event] = eventsFilter[i].attendees;
+        }
+    }
+    return result;
+}
+console.log(eventAttendanceTracking(events));
+*/
 
 /*
 6. Task Management:
